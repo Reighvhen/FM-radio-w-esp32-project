@@ -21,6 +21,11 @@
 
 <h3> What rx.setup() actually does: </h3> 
 <p> 
+  According to the RDA5807M datasheet:
+  <img src="img1.jpg">
+  <i> 
+    This image implies that the default state of the radio module, before using     it,in register 0x02, bit 14 = 0 -> DMUTE = 0, which means that the chip is       muted from the start
+  </i>
   According to the source: PU2CLR RDA5807 Arduino Library
 
 <pre>
@@ -40,7 +45,7 @@
 </pre>
     
 <p>
-  When you call <code>rx.setup()</code>, it does three things in order, it calls:
+  When you call <code>rx.setup()</code>, it does three things in order: it calls:
   <ol>
     <li> <code>Wire.begin()</code>: initializes the I2C communication line between the ESP32 and the RDA5807M chip</li>
     <li> <code>delay(10)</code>: it waits 10 milliseconds for everything to stabilize</li>
@@ -75,9 +80,9 @@
   <ul>
     <li>DMUTE = 1 -> unmutes the chip</li> 
     <li>DHIZ = 1 -> enables audio output</li>
-    <li>VOLUME = 0 -> sets the volume to the minimum. <b> In this case volume(0) does not equal real silence, by setting the volume to 0 we can still hear a little bit of sound.</b></li>
+    <li>VOLUME = 0 -> sets the volume to the minimum. <b> In this case, volume(0) does not equal real silence; by setting the volume to 0, we can still hear a little bit of sound.</b></li>
   </ul>
   </ol>
 
-   <i> Overall <code>rx.setup()</code>  initializes the I2C communication line between the ESP32 and the RDA5807M chip, unmutes the chip, and set volume to 0.</i>
+   <i> Overall, <code>rx.setup()</code>  initializes the I2C communication line between the ESP32 and the RDA5807M chip, unmutes the chip, and sets the volume to 0.</i>
 </p>
