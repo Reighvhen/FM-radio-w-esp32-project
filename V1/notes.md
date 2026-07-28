@@ -24,8 +24,12 @@
   According to the RDA5807M datasheet:
   <img src="img1.jpg">
   <i> 
-    This image implies that the default state of the radio module, before using     it,in register 0x02, bit 14 = 0 -> DMUTE = 0, which means that the chip is       muted from the start
-  </i>
+    This image implies that the default state of the radio module, before using     it,in register 0x02, bit 14 = 0 -> DMUTE = 0, which means that the chip is      muted from the start
+  </i><br>
+  <img src="img12.png">
+    <i> 
+    In register 0x02, bit0 = 0 -> Power Up is Disabled
+  </i><br>
   According to the source: PU2CLR RDA5807 Arduino Library
 
 <pre>
