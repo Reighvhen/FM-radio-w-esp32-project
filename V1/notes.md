@@ -2,9 +2,8 @@
 <p>
   This is the first version of the project. The goal was simple: <b> get the radio working. </b> The frequency is hardcoded in the code, meaning the radio automatically tunes to KISS 91.7 when powered on. <i>No buttons, no controls, just plug in and it plays.</i>
 </p>
+
 <h2> What I learned </h2>
-
-
 
 <h3> Understanding How the ESP32 Configures the RDA5807M </h3> 
 <p> 
@@ -112,19 +111,19 @@ void RDA5807::powerUp()
 </code></pre>
 
 <p>
-  The key things powerUp() changes from the factory defaults:
+  The key things <code>powerUp()</code> changes from the factory defaults:
   <ul>
     <li>
       <b>ENABLE = 1</b>: Powers the chip on. By default, ENABLE = 0, so the chip was completely powered down. This is what actually turns the receiver on.
     </li>
     <li>
-      <b>DMUTE = 1</b>: Unmutes the chip. By default, DMUTE = 0 (muted). After powerUp(), the chip is unmuted and ready to output audio.
+      <b>DMUTE = 1</b>: Unmutes the chip. By default, DMUTE = 0 (muted). After <code>powerUp()</code>, the chip is unmuted and ready to output audio.
     </li>
     <li>
       <b>DHIZ = 1</b>: Enables the audio output pins. Without this, the audio output is in a high-impedance state — no signal would reach the PAM8403 amplifier.
     </li>
     <li>
-      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it to minimum (0000). <b>Important note: volume = 0 does NOT mean true silence.</b> The chip still outputs a small signal at volume 0 that the PAM8403 amplifies to an audible level. True silence requires rx.setMute(true), which sets DMUTE = 0.
+      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it to minimum (0000). <b>Important note: volume = 0 does NOT mean true silence.</b> The chip still outputs a small signal at volume 0 that the PAM8403 amplifies to an audible level. True silence requires <code>rx.setMute(true)</code>, which sets DMUTE = 0.
     </li>
   </ul>
 </p>
@@ -138,11 +137,25 @@ void RDA5807::powerUp()
 <p>
   <i>
     Overall, <code>rx.setup()</code> initializes I2C communication between the ESP32 and RDA5807M, powers the chip on, unmutes it, enables the audio output, and sets the volume to minimum — taking the chip from its powered-down factory default state to a fully operational but silent state, ready to receive commands.
-
-    
   </i>
 </p>
 
 <p>
   <b>One more important thing about register memory:</b> All these settings are stored in the chip's <b>volatile RAM</b> — temporary memory that only holds while power is supplied. When you unplug the circuit, all settings reset to factory defaults. This is why the ESP32 needs to run rx.setup() and configure the chip every single time it powers on — it cannot remember the previous settings across power cycles.
 </p>
+
+<hr>
+<h3>
+  References:
+</h3>
+<ul>
+  <li>
+    <a href="https://pu2clr.github.io/RDA5807/extras/apidoc/html/group__GA07.html#gafec3018913d735ee0684b88cf503c84a">PU2CLR RDA5807 Arduino Library - By Ricardo Lima Caratti</a>
+  </li>
+  <li>
+    <a href="https://github.com/pu2clr/RDA5807/blob/master/src/RDA5807.cpp">PU2CLR RDA5807 Library Code</a>
+  </li>
+  <li>
+    RDA5807m Data Sheet
+  </li>
+</ul>
