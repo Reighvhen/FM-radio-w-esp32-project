@@ -21,9 +21,7 @@
 
 <h3>What rx.setup() actually does:</h3>
 <p>
-  Before understanding what <code>rx.setup()</code> does, we first need to understand 
-  the <b>default state</b> of the RDA5807M chip before we configure it. 
-  According to the datasheet, the chip powers on with these default register values:
+  Before understanding what <code>rx.setup()</code> does, we first need to understand the <b>default state</b> of the RDA5807M chip before we configure it. According to the datasheet, the chip powers on with these default register values:
 </p>
 
 <b><i>According to the RDA5807M datasheet:</i></b>
@@ -44,16 +42,12 @@
 
 <img src="img3.jpg">
 <i>
-  Register 0x05, bits [3:0] represent volume. 0000 = 0 (minimum), 1111 = 15 (maximum). 
-  The <b>default is 1111 (maximum volume)</b> — so if we powered the chip on without 
-  setting the volume, it would play at full blast.
+  Register 0x05, bits [3:0] represent volume. 0000 = 0 (minimum), 1111 = 15 (maximum). The <b>default is 1111 (maximum volume)</b> — so if we powered the chip on without setting the volume, it would play at full blast.
 </i>
 <br><br>
 
 <p>
-  So by default, the chip starts <b>muted, powered down, and at maximum volume</b>. 
-  These defaults are not useful on their own — the chip needs to be configured 
-  by the ESP32 before it does anything meaningful. This is what <code>rx.setup()</code> is for.
+  So by default, the chip starts <b>muted, powered down, and at maximum volume</b>. These defaults are not useful on their own — the chip needs to be configured by the ESP32 before it does anything meaningful. This is what <code>rx.setup()</code> is for.
 </p>
 
 <b><i>According to the source: PU2CLR RDA5807 Arduino Library</i></b>
@@ -83,7 +77,6 @@ void RDA5807::setup(uint8_t clock_frequency, uint8_t oscillator_type, uint8_t rl
     <li>
       <code>delay(10)</code>: Waits 10 milliseconds for the I2C bus to stabilize before sending any commands.
     </li>
-    
     <li>
       <code>powerUp()</code>: This is where the actual chip configuration happens. It writes new values into the chip's registers, overriding the factory defaults. Here is what <code>powerUp()</code> actually does internally:
     </li>
@@ -119,25 +112,19 @@ void RDA5807::powerUp()
 </code></pre>
 
 <p>
-  The key things <code>powerUp()</code> changes from the factory defaults:
+  The key things powerUp() changes from the factory defaults:
   <ul>
-    
     <li>
       <b>ENABLE = 1</b>: Powers the chip on. By default, ENABLE = 0, so the chip was completely powered down. This is what actually turns the receiver on.
     </li>
-    
     <li>
       <b>DMUTE = 1</b>: Unmutes the chip. By default, DMUTE = 0 (muted). After powerUp(), the chip is unmuted and ready to output audio.
     </li>
-    
     <li>
       <b>DHIZ = 1</b>: Enables the audio output pins. Without this, the audio output is in a high-impedance state — no signal would reach the PAM8403 amplifier.
     </li>
-    
     <li>
-      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it to minimum (0000). 
-      <b>Important note: volume = 0 does NOT mean true silence.</b> 
-      The chip still outputs a small signal at volume 0 that the PAM8403 amplifies to an audible level. True silence requires <code>rx.setMute(true)</code>, which sets DMUTE = 0.
+      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it to minimum (0000). <b>Important note: volume = 0 does NOT mean true silence.</b> The chip still outputs a small signal at volume 0 that the PAM8403 amplifies to an audible level. True silence requires rx.setMute(true), which sets DMUTE = 0.
     </li>
   </ul>
 </p>
@@ -145,6 +132,8 @@ void RDA5807::powerUp()
 <p>
   <b>Important consequence:</b> Since <code>powerUp()</code> sets DMUTE = 1 (unmuted), calling <code>rx.setup()</code> will leave the chip in an unmuted state. This is why we immediately follow <code>rx.setup()</code> with <code>rx.setMute(true)</code> in our code — to keep the radio silent until the user intentionally turns it on by pressing the button.
 </p>
+
+<img src="img4.png">
 
 <p>
   <i>
