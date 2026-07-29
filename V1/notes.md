@@ -11,7 +11,7 @@
   The RDA5807M is an independent hardware device with its own internal memory, called registers. When the ESP32 executes functions such as rx.setup(), rx.setFrequency(), and rx.setVolume(), it sends commands over the I²C communication bus to write values into these registers. <br>
   <br> Once these values are written, they remain stored in the RDA5807M as long as the chip continues to receive power (VCC). This is independent of what the ESP32 is doing afterward. The ESP32 can run different code, stop communicating, or even be disconnected (provided the RDA5807M has its own power supply), and the RDA5807M will continue using the last settings stored in its registers.<br>
   
-  For example, if the ESP32 configures the RDA5807M to tune to 91.7 MHz, set the volume to 1, and unmute the audio, the radio will continue operating with those settings until: <br>
+  For example, if the ESP32 configures the RDA5807M to tune to 91.7 MHz, sets the volume to 1, and unmutes the audio, the radio will continue operating with those settings until: <br>
     <ul>
       <li>The ESP32 writes new values to the registers, or</li>
       <li>The RDA5807M loses power, causing its registers to reset to their default state.</li>
@@ -81,14 +81,13 @@ void RDA5807::setup(uint8_t clock_frequency, uint8_t oscillator_type, uint8_t rl
       the chip at all — no commands can be sent.
     </li>
     <li>
-      <code>delay(10)</code>: Waits 10 milliseconds for the I2C bus to stabilize 
-      before sending any commands.
+      <code>delay(10)</code>: Waits 10 milliseconds for the I2C bus to stabilize before sending any commands.
     </li>
+    
     <li>
-      <code>powerUp()</code>: This is where the actual chip configuration happens. 
-      It writes new values into the chip's registers, overriding the factory defaults.
-      Here is what powerUp() actually does internally:
+      <code>powerUp()</code>: This is where the actual chip configuration happens. It writes new values into the chip's registers, overriding the factory defaults. Here is what <code>powerUp()</code> actually does internally:
     </li>
+    
   </ol>
 </p>
 
@@ -120,50 +119,41 @@ void RDA5807::powerUp()
 </code></pre>
 
 <p>
-  The key things powerUp() changes from the factory defaults:
+  The key things <code>powerUp()</code> changes from the factory defaults:
   <ul>
+    
     <li>
-      <b>ENABLE = 1</b>: Powers the chip on. By default ENABLE = 0, so the chip 
-      was completely powered down. This is what actually turns the receiver on.
+      <b>ENABLE = 1</b>: Powers the chip on. By default, ENABLE = 0, so the chip was completely powered down. This is what actually turns the receiver on.
     </li>
+    
     <li>
-      <b>DMUTE = 1</b>: Unmutes the chip. By default DMUTE = 0 (muted). 
-      After powerUp(), the chip is unmuted and ready to output audio.
+      <b>DMUTE = 1</b>: Unmutes the chip. By default, DMUTE = 0 (muted). After powerUp(), the chip is unmuted and ready to output audio.
     </li>
+    
     <li>
-      <b>DHIZ = 1</b>: Enables the audio output pins. Without this, the audio 
-      output is in high impedance state — no signal would reach the PAM8403 amplifier.
+      <b>DHIZ = 1</b>: Enables the audio output pins. Without this, the audio output is in a high-impedance state — no signal would reach the PAM8403 amplifier.
     </li>
+    
     <li>
-      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it 
-      to minimum (0000). 
+      <b>VOLUME = 0</b>: Overrides the default maximum volume (1111) and sets it to minimum (0000). 
       <b>Important note: volume = 0 does NOT mean true silence.</b> 
-      The chip still outputs a small signal at volume 0 that the PAM8403 amplifies 
-      to an audible level. True silence requires rx.setMute(true) which sets DMUTE = 0.
+      The chip still outputs a small signal at volume 0 that the PAM8403 amplifies to an audible level. True silence requires <code>rx.setMute(true)</code>, which sets DMUTE = 0.
     </li>
   </ul>
 </p>
 
 <p>
-  <b>Important consequence:</b> Since powerUp() sets DMUTE = 1 (unmuted), 
-  calling rx.setup() will leave the chip in an unmuted state. 
-  This is why we immediately follow rx.setup() with rx.setMute(true) in our code — 
-  to keep the radio silent until the user intentionally turns it on by pressing the button.
+  <b>Important consequence:</b> Since <code>powerUp()</code> sets DMUTE = 1 (unmuted), calling <code>rx.setup()</code> will leave the chip in an unmuted state. This is why we immediately follow <code>rx.setup()</code> with <code>rx.setMute(true)</code> in our code — to keep the radio silent until the user intentionally turns it on by pressing the button.
 </p>
 
 <p>
   <i>
-    Overall, <code>rx.setup()</code> initializes I2C communication between the ESP32 
-    and RDA5807M, powers the chip on, unmutes it, enables the audio output, 
-    and sets the volume to minimum — taking the chip from its powered-down factory 
-    default state to a fully operational but silent state, ready to receive commands.
+    Overall, <code>rx.setup()</code> initializes I2C communication between the ESP32 and RDA5807M, powers the chip on, unmutes it, enables the audio output, and sets the volume to minimum — taking the chip from its powered-down factory default state to a fully operational but silent state, ready to receive commands.
+
+    
   </i>
 </p>
 
 <p>
-  <b>One more important thing about register memory:</b> All these settings are stored 
-  in the chip's <b>volatile RAM</b> — temporary memory that only holds while power is 
-  supplied. When you unplug the circuit, all settings reset to factory defaults. 
-  This is why the ESP32 needs to run rx.setup() and configure the chip every single 
-  time it powers on — it cannot remember the previous settings across power cycles.
+  <b>One more important thing about register memory:</b> All these settings are stored in the chip's <b>volatile RAM</b> — temporary memory that only holds while power is supplied. When you unplug the circuit, all settings reset to factory defaults. This is why the ESP32 needs to run rx.setup() and configure the chip every single time it powers on — it cannot remember the previous settings across power cycles.
 </p>
