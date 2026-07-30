@@ -25,21 +25,21 @@
 
 <b><i>According to the RDA5807M datasheet:</i></b>
 
-<img src="img1.jpg">
+<img src="images/img1.jpg">
 <i>
   Register 0x02, bit 14: DMUTE = 0 by default, which means the chip starts 
   in a <b>muted state</b> — no audio output until we tell it otherwise.
 </i>
 <br><br>
 
-<img src="img2.jpg">
+<img src="images/img2.jpg">
 <i>
   Register 0x02, bit 0: ENABLE = 0 by default, which means the chip is 
   <b>powered down</b> on startup — it needs to be explicitly enabled before it does anything.
 </i>
 <br><br>
 
-<img src="img3.jpg">
+<img src="images/img3.jpg">
 <i>
   Register 0x05, bits [3:0] represent volume. 0000 = 0 (minimum), 1111 = 15 (maximum). The <b>default is 1111 (maximum volume)</b> — so if we powered the chip on without setting the volume, it would play at full blast.
 </i>
@@ -132,7 +132,7 @@ void RDA5807::powerUp()
   <b>Important consequence:</b> Since <code>powerUp()</code> sets DMUTE = 1 (unmuted), calling <code>rx.setup()</code> will leave the chip in an unmuted state. This is why we immediately follow <code>rx.setup()</code> with <code>rx.setMute(true)</code> in our code — to keep the radio silent until the user intentionally turns it on by pressing the button.
 </p>
 
-<img src="img4.png">
+<img src="images/img4.png">
 
 <p>
   <i>
