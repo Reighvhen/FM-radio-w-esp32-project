@@ -16,6 +16,12 @@
 </p>
 
 <p>
+  <a href="https://www.tiktok.com/@yourusername/video/1234567890">
+  🎥 Watch the Version 2 demonstration on TikTok
+  </a>
+</p>
+
+<p>
   <b>The Result:</b><br>
   The button successfully toggles the radio on and off. Moreover, using my  <b>Analog Discovery 2 oscilloscope</b> and <b>Waveforms software</b>, I was able to observe the actual audio signal coming out of the RDA5807M's LOUT pin for the first time.
 </p>
