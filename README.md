@@ -8,7 +8,7 @@ The latest version features free-frequency tuning of FM radio stations controlle
 
 ## About Me
 
-Hi! I'm **Reigh Vhen Dimailig**, an Electrical Engineering student with interests in embedded systems, microcontrollers, and hands-on projects. Outside of engineering, I really like drawing.
+Hi! I'm **Reigh Vhen**, an Electrical Engineering student with interests in embedded systems, microcontrollers, and hands-on projects. Outside of engineering, I really like drawing.
 
 ---
 
