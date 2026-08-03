@@ -112,7 +112,7 @@ lastButtonState = buttonState;</code></pre>
       moment. Louder and busier audio produces larger voltage swings.
     </li>
     <li>
-      <b>Muted:</b> The waveform is flattened to a straight line at approximately 900mV. This is the <b>DC offset</b> of the RDA5807M output — the chip outputs a constant DC voltage even when muted. This is normal behavior.
+      <b>Muted:</b> The waveform is flattened to a straight line at approximately 900mV. This is the <b>DC offset</b> of the RDA5807M output — the chip outputs a constant DC voltage even when muted. 
     </li>
   </ul>
 
