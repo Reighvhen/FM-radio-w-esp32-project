@@ -19,7 +19,7 @@ byte lastUp;
 byte lastDown;
 
 bool isOn = false; //
-byte ledState = LOW; // initialize before anything that LED's are off
+byte ledState = LOW; // initialize before anything that LEDs are off
 
 int maxVol = 15;
 
@@ -46,7 +46,7 @@ void setup()
   rx.setup(); //call rx.powerUp: initialize I2C communication & (DMUTE, DHIZ, ENABBLE)=1, & VOLUME=0
   rx.setFrequency(9170); //Freq of the radio we want to tune in
   rx.setVolume(0); // could be redundant cause the rx.setup already set vol=0
-  rx.setMute(true); //true=muted, since the rx.setup unmutes it, we want to unmute it again so that it would be quiet when just plug in to power supply
+  rx.setMute(true); //true=muted; since the rx.setup unmutes it, we want to unmute it again so that it would be quiet when just plug in to power supply
 
 }
 
@@ -66,16 +66,16 @@ void loop()
       // 2. LOW -> HIGH.
       // 3. HIGH -> LOW.
       // 4. HIGH -> HIGH.
-        // if last =! current state, it means that button has been pressed, 
-        // if it was equal it means that button was not pressed cause the state stayed the same
+        // if last =! current state, it means that the button has been pressed, 
+        // if it was equal, it means that the button was not pressed cause the state stayed the same
   // we only enter the next block of code if the current and last state are different
   if (lastMuteState != nowMuteState) 
   { 
     
     //At this point we have only 2 possibilities left:
-      // 1. Either the previous state was LOW and the current state is HIGH (pressed to not pressed). --> release
-      // 2. Or the previous state was HIGH and the current state is LOW (not pressed to pressed). --> push
-    // We interested in the moment the button goes down (pressed), not when it comes back up. 
+      // 1. Either the previous state was LOW, and the current state is HIGH (pressed to not pressed). --> release
+      // 2. Or the previous state was HIGH, and the current state is LOW (not pressed to pressed). --> push
+    // We are interested in the moment the button goes down (pressed), not when it comes back up. 
       // Because ppl expect things to happen when button is pushed and not when they release.
     if (isOn == false && lastMuteState == HIGH && nowMuteState == LOW ) // if are off (currently) and press the button == turning ON
     {
@@ -93,7 +93,7 @@ void loop()
 
     else if (isOn == true && lastMuteState == HIGH && nowMuteState == LOW ) // if are on and press the button == turning OFF
     {
-      //rx.powerDown(); // Power the receiver off: doesnt touch the frequency, thus theres no need to initialize the freq again
+      //rx.powerDown(); // Power the receiver off: doesn't touch the frequency, thus theres no need to initialize the freq again
       rx.setMute(true);
       rx.setVolume(0); //reset the volume back to 0
       
@@ -107,7 +107,7 @@ void loop()
     // now we move the current state to be the previous state so next time the loops run again it has the correct prev state
     lastMuteState = nowMuteState;
     
-    //toggle the isOn state to get the current state of the isOn, prev we are using its prev state to check the next step
+    //toggle the isOn state to get the current state of the isOn, prev, we are using its prev state to check the next step
    // isOn = !isOn;
   }
 
