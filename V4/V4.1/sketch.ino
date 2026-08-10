@@ -1,5 +1,5 @@
 //UNEDITED
-// this has 1 led and  2 potentiometer for volume control (limit up to volume 4) and free tuning of frequency
+//This has 1 led and  2 potentiometers for volume control (limit up to volume 4) and free tuning of frequency
 //The execution order is:
                           // Global variable declarations/initializations — once, at the very start
                           // setup() — once, right after
@@ -17,7 +17,6 @@ byte lastMuteState;
 
 bool isOn = false; //
 
-int maxvol = 4;
 int lastFreq = 0;
 
 void setup()
@@ -39,10 +38,7 @@ void setup()
   Serial.begin(115200);
   rx.setup(); //call rx.powerUp: initialize I2C communication & (DMUTE, DHIZ, ENABBLE)=1, & VOLUME=0
 
-  
-  //rx.setFrequency(freq);
-  //rx.setFrequency(9170); //Freq of the radio we want to tune in
-  rx.setMute(true); //true=muted, since the rx.setup unmutes it, we want to unmute it again so that it would be quiet when just plug in to power supply
+  rx.setMute(true); //true=muted; since the rx.setup unmutes it, we want to unmute it again so that it would be quiet when just plug in to power supply
 
 }
 
@@ -57,22 +53,20 @@ void loop()
       // 2. LOW -> HIGH.
       // 3. HIGH -> LOW.
       // 4. HIGH -> HIGH.
-        // if last =! current state, it means that button has been pressed, 
-        // if it was equal it means that button was not pressed cause the state stayed the same
+        // if last =! current state, it means that the button has been pressed, 
+        // if it was equal, it means that the button was not pressed cause the state stayed the same
   // we only enter the next block of code if the current and last state are different
   if (lastMuteState != nowMuteState) 
   { 
     
     //At this point we have only 2 possibilities left:
-      // 1. Either the previous state was LOW and the current state is HIGH (pressed to not pressed). --> release
-      // 2. Or the previous state was HIGH and the current state is LOW (not pressed to pressed). --> push
-    // We interested in the moment the button goes down (pressed), not when it comes back up. 
+      // 1. Either the previous state was LOW, and the current state is HIGH (pressed to not pressed). --> release
+      // 2. Or the previous state was HIGH, and the current state is LOW (not pressed to pressed). --> push
+    // We are interested in the moment the button goes down (pressed), not when it comes back up. 
       // Because ppl expect things to happen when button is pushed and not when they release.
     if (isOn == false && lastMuteState == HIGH && nowMuteState == LOW ) // if are off (currently) and press the button == turning ON
     {
       rx.setMute(false);
-      //rx.setup();  // actually also unmutes the radio too
-      //rx.setFrequency(9170); //Freq of the radio we want to tune in
 
       //turning on the green led and off the red
       analogWrite(green, 255);
@@ -82,7 +76,6 @@ void loop()
 
     else if (isOn == true && lastMuteState == HIGH && nowMuteState == LOW ) // if are on and press the button == turning OFF
     {
-      //rx.powerDown(); // Power the receiver off: doesnt touch the frequency, thus theres no need to initialize the freq again
       rx.setMute(true);
             
       //turning on the red led and off the green
@@ -95,8 +88,6 @@ void loop()
     // now we move the current state to be the previous state so next time the loops run again it has the correct prev state
     lastMuteState = nowMuteState;
     
-    //toggle the isOn state to get the current state of the isOn, prev we are using its prev state to check the next step
-   // isOn = !isOn;
   }
 
 
@@ -120,8 +111,6 @@ void loop()
       rx.setFrequency(newFreq);
       delay(50);
       lastFreq = newFreq;
-      Serial.println(newFreq);
-      Serial.println(rx.getRssi());
     }
     rx.setVolume(4);
   }
