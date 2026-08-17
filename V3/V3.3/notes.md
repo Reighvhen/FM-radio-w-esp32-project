@@ -31,8 +31,7 @@ RDA5807M ROUT → [1kΩ resistor] ↗
 [potentiometer other outer pin] → GND
 [potentiometer middle pin/wiper] → PAM8403 L-IN and R-IN
   </pre>
-  The potentiometer acts as a <b>voltage divider on the audio signal itself</b> 
-  — not on a power supply voltage like in V3.2. The audio signal enters one 
+  The potentiometer acts as a <b>voltage divider on the audio signal itself </b> — not on a power supply voltage like in V3.2. The audio signal enters one 
   outer pin, GND is on the other outer pin, and the wiper taps off a variable 
   amount of signal depending on knob position:
   <ul>
@@ -42,7 +41,7 @@ RDA5807M ROUT → [1kΩ resistor] ↗
   </ul>
   This is fundamentally different from V3.2 — we are not telling the RDA5807M 
   chip to change its volume digitally. We are physically controlling how much 
-  audio signal the amplifier receives as input.
+  audio signal the amplifier receives as input. <i> (The audio signal is a voltage signal. When the RDA5807M outputs audio on LOUT and ROUT, it's outputting a varying voltage that represents the audio waveform — the voltage goes up and down at audio frequencies, and those variations are what carries the sound information.) </i>
 </p>
 
 <h3>Why rx.setVolume(4) is Hardcoded</h3>
