@@ -23,7 +23,7 @@
   Before understanding what <code>rx.setup()</code> does, we first need to understand the <b>default state</b> of the RDA5807M chip before we configure it. According to the datasheet, the chip powers on with these default register values:
 </p>
 
-<b><i>According to the RDA5807M datasheet:</i></b>
+<b><i>According to the RDA5807M datasheets:</i></b>
 
 <img src="images/img1.jpg">
 <i>
