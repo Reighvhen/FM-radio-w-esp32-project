@@ -15,7 +15,7 @@ RDA5807 rx;
 
 byte lastMuteState;
 
-bool isOn = false; //
+bool isOn = false; 
 
 int lastFreq = 0;
 
