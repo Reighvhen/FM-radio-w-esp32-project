@@ -1,6 +1,6 @@
 # 📻FM Radio Project — ESP32 + RDA5807M + PAM8403
 
-An ongoing FM radio project built with RDA5807M, ESP32, and PAM8403, programmed in Arduino IDE. Features free-frequency tuning, hardware volume control, and LED indicators. This repository serves as a progress log documenting different versions, problems encountered, and lessons learned.
+An ongoing FM radio project built with RDA5807M, ESP32, and PAM8403, programmed in the Arduino IDE. Features free-frequency tuning, hardware volume control, and LED indicators. This repository serves as a progress log documenting different versions, problems encountered, and lessons learned.
 
 The latest version features free-frequency tuning of FM radio stations controlled by potentiometers, a hardware volume control, and LED power indicators. Used an Analog Discovery 2 oscilloscope and FFT analysis to study audio waveforms and identify interference sources.
 
@@ -28,7 +28,7 @@ Hi! I'm **Reigh Vhen**, an Electrical Engineering student with interests in embe
 
 ## Version History
 
-**V1** — Basic radio with hardcoded frequency, plays on power up
+**V1** — Basic radio with hardcoded frequency, plays on power-up
 
 **V2** — Added on/off button to V1
 
@@ -43,7 +43,7 @@ Hi! I'm **Reigh Vhen**, an Electrical Engineering student with interests in embe
 ---
 
 ## Current Features
-- Free frequency tuning across Edmonton FM band
+- Free frequency tuning across the Edmonton FM band
 - Hardware analog volume control with true silence at minimum
 - Single RGB LED power indicator
 - On/off button with debounce
@@ -52,8 +52,11 @@ Hi! I'm **Reigh Vhen**, an Electrical Engineering student with interests in embe
 ---
 
 ## Next Steps
+- Using other interfaces such as UART/ADC/TIMER/etc. besides the current GPIO and I2C.
+- Coding without relying much on the Arduino libraries and writing mostly in regular C/C++
 - Further improve free tuning stability and efficiency
 - Add LCD screen to display frequency, station name, song info (via RDS)
+- Integrating an AM version into the project!!!
 - Develop PCB version
 - Learn 3D printing for custom radio enclosure
 
