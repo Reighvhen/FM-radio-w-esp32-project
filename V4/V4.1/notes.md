@@ -110,4 +110,19 @@ if (abs(newFreq - lastFreq) > 11)
   </ul>
 </p>
 
-<h3>Future Improvements Being
+<h3>Future Improvements Being </h3>
+  
+<p>
+  <ul>
+    <li>
+      Converting the code to be purely written in C/C++ without relying much on the Arduino library 
+    </li>
+    <li>
+      Using a rotary encoder instead of a potentiometer for frequency tuning
+    </li>
+  </ul>
+</p>
+  
+
+
+
